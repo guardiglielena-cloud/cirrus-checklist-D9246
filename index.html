@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard D-9246 STD CIRRUS</title>
+
+  <!-- React + ReactDOM UMD -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+  <!-- Babel per poter usare JSX inline -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <!-- PRESUPPOSTO FONDAMENTALE: data-presets="env,react" -->
+  <script type="text/babel" data-presets="env,react">
+    const { useState } = React;
+
+    const ChevronLeft = (props) => (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    );
+
+    const CheckCircle2 = (props) => (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+        <circle cx="12" cy="12" r="10"></circle>
+        <path d="m9 12 2 2 4-4"></path>
+      </svg>
+    );
+
+    const Circle = (props) => (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+        <circle cx="12" cy="12" r="10"></circle>
+      </svg>
+    );
+
+    const FileText = (props) => (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="16" y1="13" x2="8" y2="13"></line>
+        <line x1="16" y1="17" x2="8" y2="17"></line>
+        <line x1="10" y1="9" x2="8" y2="9"></line>
+      </svg>
+    );
+
+    function GliderChecklistApp() {
+      const [currentView, setCurrentView] = useState('home');
+      const [preVolo, setPreVolo] = useState({});
+      const [montaggio, setMontaggio] = useState({});
+      const [smontaggio, setSmontaggio] = useState({});
+
+      const checklistPreVolo = [
+        { section: 'CONTROLLI IN CABINA', items: [
+          'PERNO ALI - 1 anteriore - controllato',
+          'GRAFFETTA PERNO - innestata',
+          'CONNESSIONE COMANDI HOTELLIER - 4 - controllati',
+          'BATTERIE - 2 - installate, collegate e bloccate',
+          'OGGETTI LIBERI - sistemati',
+          'ANEMOMETRO - funzionante',
+          'VARIOMETRO - funzionante',
+          'ALTIMETRO - funzionante',
+          'FRENO - provato',
+          'POMELLO SGANCIO - integro',
+          'RADIO 120.230 - provata',
+          'CINGHIE - controllate',
+          'SCHIENALE - bloccato',
+          'DOCUMENTAZIONE - presente',
+          'ZAVORRA - se necessaria',
+          'LEVA DEL CARRELLO - in posizione',
+          'SACCHETTO NAUSEA - nella tasca',
+          'CAMEL BAG - in posizione'
+        ]},
+        { section: 'CONTROLLI ESTERNI', items: [
+          'TETTUCCIO E FILO DI LANA - integro e presente',
+          'MUSONE - integro',
+          'GANCIO FRONTALE E BARICENTRALE - controllati',
+          'RUOTA CARRELLO - 2,5 atm',
+          'PRESE DI PRESSIONE - tolti i remove before flight',
+          'FIANCATA ANT. SX - integra',
+          'SEMIALA SINISTRA - superficie per danni',
+          'DIRUTTORE SX - funzionalità e giochi',
+          'ALETTONE SX - integrità, libertà, giochi',
+          'SPORTELLO D\'ISPEZIONE - fissato con nastro',
+          'FIANCATA POST. SX - integra',
+          'TUBO DI PITOT - inserito',
+          'DERIVA - integra',
+          'STABILATORE - innestato e controllato',
+          'TIMONE - integrità, fine corsa',
+          'RUOTINO CODA - presente',
+          'FIANCATA POST. DX - integra',
+          'SEMIALA DX - superfici per danni',
+          'DIRUTTORE DX - funzionalità e giochi',
+          'ALETTONE DX - integrità, libertà, giochi',
+          'FIANCATA ANT. DX - integra'
+        ]},
+        { section: 'CONTROLLI PREDECOLLO', items: [
+          'KULLER - rimosso',
+          'TETTUCCIO - chiuso e bloccato',
+          'EMERGENZA TETTUCCIO - in posizione',
+          'PEDALIERA - regolata',
+          'OGGETTI LIBERI, ZAVORRA - OK',
+          'CINTURE E PARACADUTE - allacciati',
+          'STRUMENTI - controllati',
+          'RADIO 120.230 - prova radio ok, volume regolato',
+          'COMANDI DI VOLO - provati fondo corsa',
+          'DIRUTTORI - provati e bloccati',
+          'TRIM - regolato',
+          'BERRETTO, OCCHIALI - indossati',
+          'PIANIFICAZIONE EMERGENZA - decisa'
+        ]},
+        { section: 'CONTROLLI ESTERNI PRIMA DEL DECOLLO', items: [
+          'VENTO - entro limiti',
+          'AREA - libera da traffico',
+          'CAVO - far agganciare',
+          'DIRUTTORI APERTI - frenare',
+          'CAVO TESO - bloccare diruttori',
+          'POLLICE ALZATO - per livellare le ali',
+          'SEDUTA PILOTA - corretta',
+          'MANO SX SULLA GAMBA - pronta a sganciare'
+        ]}
+      ];
+
+      const checklistMontaggio = [
+        { section: 'WINGS', items: [
+          'Clean and lubricate the wing attachment bolts and bearings on the fuselage',
+          'Put the left wing (fork-type spar root) into the fuselage until nose and rear attachment bolts are entirely inserted',
+          'Insert the main bolt into the front bushing and push it completely through',
+          'Put the right wing (tongue-type spar root) into the fuselage',
+          'Push the main bolt completely through the joint - gap at top edge should be 6 to 8 mm (1/4" to 5/16")',
+          'Attach the bolt handle',
+          'Secure with the cowling pin',
+          'Connect aileron push rods',
+          'Connect push rods of the airbrakes'
+        ]},
+        { section: 'HORIZONTAL TAIL PLANE', items: [
+          'Mount tail plane by one person only',
+          'Front bolt bearing fitting dipping into upper opening',
+          'Push tail plane slightly down',
+          'Push tail plane backwards until CLICK',
+          'Lock hooks using handle',
+          'Secure with Fokker pin',
+          'Check GREEN area',
+          'Seal joints'
+        ]},
+        { section: 'AFTER RIGGING', items: [
+          'Check functions of control surfaces',
+          'Verify sealing is proper'
+        ]}
+      ];
+
+      const checklistSmontaggio = [
+        { section: 'BEFORE DISASSEMBLY', items: [
+          'Clean general glider',
+          'Check for damages'
+        ]},
+        { section: 'HORIZONTAL TAIL PLANE', items: [
+          'Remove Fokker pin',
+          'Unlock hooks',
+          'Push plane forward few mm',
+          'Disengage bolt',
+          'Take off plane'
+        ]},
+        { section: 'WINGS', items: [
+          'Disconnect airbrakes',
+          'Disconnect ailerons',
+          'Remove safety pin',
+          'Remove bolt handle',
+          'Pull out main bolt',
+          'Remove wings',
+          'Secure in trailer'
+        ]}
+      ];
+
+      const handleCheckToggle = (list, setList, index) => {
+        setList(prev => ({ ...prev, [index]: !prev[index] }));
+      };
+
+      const renderChecklist = (title, items, state, setState) => (
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-sky-100 p-6">
+          <div className="max-w-3xl mx-auto">
+            <button onClick={() => setCurrentView('home')} className="flex items-center text-blue-600 hover:text-blue-800 mb-6 font-medium">
+              <ChevronLeft className="w-5 h-5 mr-1" />
+              Torna alla Dashboard
+            </button>
+
+            <div className="bg-white rounded-xl shadow-lg p-8">
+              <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">{title}</h2>
+
+              <div className="space-y-6">
+                {items.map((section, sectionIndex) => (
+                  <div key={sectionIndex}>
+                    <h3 className="text-lg font-bold text-blue-600 mb-3 border-b-2 border-blue-200 pb-2">
+                      {section.section}
+                    </h3>
+                    <div className="space-y-2">
+                      {section.items.map((item, itemIndex) => {
+                        const globalIndex = `${sectionIndex}-${itemIndex}`;
+                        const checked = state[globalIndex];
+                        return (
+                          <div
+                            key={globalIndex}
+                            onClick={() => handleCheckToggle(state, setState, globalIndex)}
+                            className="flex items-start p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-blue-50 transition-colors"
+                          >
+                            {checked ? (
+                              <CheckCircle2 className="w-5 h-5 text-green-500 mr-3 flex-shrink-0 mt-0.5" />
+                            ) : (
+                              <Circle className="w-5 h-5 text-gray-400 mr-3 flex-shrink-0 mt-0.5" />
+                            )}
+                            <span className={`text-sm ${checked ? 'text-gray-500 line-through' : 'text-gray-800'}`}>
+                              {item}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+
+      if (currentView === 'prevolo') return renderChecklist('Checklist Pre-Volo', checklistPreVolo, setPreVolo, preVolo);
+      if (currentView === 'montaggio') return renderChecklist('Checklist Montaggio', checklistMontaggio, setMontaggio, montaggio);
+      if (currentView === 'smontaggio') return renderChecklist('Checklist Smontaggio', checklistSmontaggio, setSmontaggio, smontaggio);
+
+      return (
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-sky-100 p-6">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h1 className="text-4xl font-bold text-gray-800 mb-2">Dashboard di Controllo</h1>
+              <h2 className="text-3xl font-semibold text-blue-600 mb-2">D-9246 STD CIRRUS</h2>
+              <p className="text-xl text-gray-600">Elena & Daniel</p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6 mb-12">
+              <button onClick={() => setCurrentView('prevolo')} className="bg-white hover:bg-blue-50 rounded-xl shadow-lg p-8 transition-all hover:shadow-xl transform hover:-translate-y-1">
+                <div className="text-center">
+                  <div className="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    <CheckCircle2 className="w-8 h-8 text-blue-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-800">Checklist<br/>Pre-Volo</h3>
+                </div>
+              </button>
+
+              <button onClick={() => setCurrentView('montaggio')} className="bg-white hover:bg-green-50 rounded-xl shadow-lg p-8 transition-all hover:shadow-xl transform hover:-translate-y-1">
+                <div className="text-center">
+                  <div className="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    <CheckCircle2 className="w-8 h-8 text-green-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-800">Checklist<br/>Montaggio</h3>
+                </div>
+              </button>
+
+              <button onClick={() => setCurrentView('smontaggio')} className="bg-white hover:bg-orange-50 rounded-xl shadow-lg p-8 transition-all hover:shadow-xl transform hover:-translate-y-1">
+                <div className="text-center">
+                  <div className="bg-orange-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    <CheckCircle2 className="w-8 h-8 text-orange-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-800">Checklist<br/>Smontaggio</h3>
+                </div>
+              </button>
+            </div>
+
+            <div className="bg-white rounded-xl shadow-lg p-8 mb-12">
+              <h3 className="text-2xl font-bold text-gray-800 text-center mb-6">CARATTERISTICHE E LIMITI</h3>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="text-lg font-bold text-blue-600 mb-3 border-b-2 border-blue-200 pb-2">DATI TECNICI</h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between"><span className="text-gray-600">Apertura alare:</span><span className="font-semibold">15 m</span></div>
+                    <div className="flex justify-between"><span className="text-gray-600">Lunghezza:</span><span className="font-semibold">6,41 m</span></div>
+                  </div>
+
+                  <h4 className="text-lg font-bold text-blue-600 mt-6 mb-3 border-b-2 border-blue-200 pb-2">PERFORMANCE</h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between"><span className="text-gray-600">Minima caduta:</span><span className="font-semibold">0,57 m/sec a 70 km/h</span></div>
+                    <div className="flex justify-between"><span className="text-gray-600">Massima efficienza:</span><span className="font-semibold">38 a 85 km/h</span></div>
+                  </div>
+
+                  <h4 className="text-lg font-bold text-blue-600 mt-6 mb-3 border-b-2 border-blue-200 pb-2">PESI</h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between"><span className="text-gray-600">Peso a vuoto:</span><span className="font-semibold">210 kg</span></div>
+                    <div className="flex justify-between"><span className="text-gray-600">Max peso totale:</span><span className="font-semibold">390 kg</span></div>
+                    <div className="flex justify-between"><span className="text-gray-600">Minimo:</span><span className="font-semibold">70 kg</span></div>
+                    <div className="flex justify-between"><span className="text-gray-600">Massimo:</span><span className="font-semibold">110 kg</span></div>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="text-lg font-bold text-red-600 mb-3 border-b-2 border-red-200 pb-2">VELOCITÀ</h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between"><span className="text-gray-600">V<sub>NE</sub>:</span><span className="font-bold text-red-600">220 km/h</span></div>
+                    <div className="flex justify-between"><span className="text-gray-600">V<sub>T</sub> traino:</span><span className="font-semibold">150 km/h</span></div>
+                    <div className="flex justify-between"><span className="text-gray-600">V<sub>T</sub> verricello:</span><span className="font-semibold">120 km/h</span></div>
+                    <div className="flex justify-between"><span className="text-gray-600">V<sub>T</sub> max estensione diruttori:</span><span className="font-semibold">220 km/h</span></div>
+                    <div className="flex justify-between"><span className="text-gray-600">V<sub>A</sub> manovra:</span><span className="font-semibold">170 km/h</span></div>
+                    <div className="flex justify-between"><span className="text-gray-600">V stallo:</span><span className="font-semibold">62 km/h</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="bg-white rounded-xl shadow-lg p-8">
+                <div className="flex items-center justify-center mb-6">
+                  <FileText className="w-8 h-8 text-blue-600 mr-3" />
+                  <h3 className="text-2xl font-bold text-gray-800">Flight & Service Manual</h3>
+                </div>
+                <a
+                  href="https://www.dropbox.com/scl/fi/kq9fnspbypisp3ak55isn/flightandservicemanual_REV_10-05-2024_DRAFT.pdf?rlkey=ty7mbbwnzfxl7q40tvmq8rhzw&st=1apiv9g8&dl=0"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-lg transition-colors text-center"
+                >
+                  Open Manual
+                </a>
+              </div>
+
+              <div className="bg-white rounded-xl shadow-lg p-8">
+                <div className="flex items-center justify-center mb-6">
+                  <FileText className="w-8 h-8 text-green-600 mr-3" />
+                  <h3 className="text-2xl font-bold text-gray-800">Libretto Circolazione Carrello</h3>
+                </div>
+                <a
+                  href="https://www.dropbox.com/scl/fi/39iir5qvog6o90gzi65dt/libretto-circolazione-carrello-XA410KV.pdf?rlkey=4zuujax99625lbnt5pd95ustj&st=zjiql5mv&dl=0"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-6 rounded-lg transition-colors text-center"
+                >
+                  Open Document
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ✅ React 18: createRoot
+    ReactDOM.createRoot(document.getElementById('root')).render(<GliderChecklistApp />);
+  </script>
+</body>
+</html>
